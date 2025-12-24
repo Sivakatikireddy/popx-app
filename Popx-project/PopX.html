@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PopX App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <div id="screen-welcome" class="screen active" style="justify-content:flex-end">
+        <h1>Welcome to PopX</h1>
+        <p class="description">Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit,</p>
+        <button class="btn btn-purple" onclick="nav('screen-signup')">Create Account</button>
+        <button class="btn btn-lavender" onclick="nav('screen-login')">Already Registered? Login</button>
+    </div>
+
+    <div id="screen-login" class="screen">
+        <button class="back-arrow" onclick="history.back()">←</button>
+        <h1>Signin to your PopX account</h1>
+        <p class="description">Lorem ipsum dolor sit amet,<br>consectetur adipiscing elit,</p>
+
+        <div class="field-container">
+            <label>Email Address</label>
+            <input id="login-email" type="text" placeholder="Enter email address">
+        </div>
+
+        <div class="field-container">
+            <label>Password</label>
+            <input id="login-pass" type="password" placeholder="Enter password">
+        </div>
+
+        <button class="btn" style="background:#CBCBCB;color:white" onclick="handleLogin()">Login</button>
+    </div>
+
+    <div id="screen-signup" class="screen">
+        <button class="back-arrow" onclick="history.back()">←</button>
+        <h1>Create your PopX account</h1>
+
+        <div class="field-container">
+            <label>Full Name*</label>
+            <input id="reg-name" type="text" value="Marry Doe">
+        </div>
+
+        <div class="field-container">
+            <label>Phone number*</label>
+            <input id="reg-phone" type="text" placeholder="Enter phone number">
+            <span id="err-phone" class="error-msg">Numbers only</span>
+        </div>
+
+        <div class="field-container">
+            <label>Email address*</label>
+            <input id="reg-email" type="text" placeholder="Enter email address">
+            <span id="err-email" class="error-msg">Must contain @</span>
+        </div>
+
+        <div class="field-container">
+            <label>Password*</label>
+            <input id="reg-pass" type="password" value="123456">
+        </div>
+
+        <div class="field-container">
+            <label>Company name</label>
+            <input id="reg-company" type="text" placeholder="Enter company name">
+        </div>
+
+        <p style="font-size: 14px; margin-bottom: 10px;">Are you an Agency?*</p>
+        <div style="margin-bottom: 20px;">
+            <input type="radio" name="agency" id="y" checked> <label for="y" style="margin-right:15px">Yes</label>
+            <input type="radio" name="agency" id="n"> <label for="n">No</label>
+        </div>
+
+        <div style="flex-grow:1"></div>
+        <button class="btn btn-purple" onclick="handleSignup()">Create Account</button>
+    </div>
+
+    <div id="screen-settings" class="screen" style="padding:0;background:#F7F8F9">
+        <div class="settings-header">Account Settings</div>
+        <div class="profile-section">
+            <div class="avatar">
+                <img src="https://i.pravatar.cc/100?u=marry" alt="profile">
+                <div class="cam-icon">📷</div>
+            </div>
+            <div>
+                <div id="display-name" style="font-weight:bold">Marry Doe</div>
+                <div id="display-email">marry@gmail.com</div>
+            </div>
+        </div>
+        <p style="padding:20px; font-size:13px; color:#666; line-height:1.5; border-bottom: 1px dashed #ccc">
+            Lorem Ipsum Dolor Sit Amet, Consetetur Sadipscing Elitr, Sed Diam Nonumy Eirmod Tempor Invidunt Ut Labore Et Dolore Magna Aliquyam Erat, Sed Diam
+        </p>
+    </div>
+
+</div>
+
+<script>
+/* ===== HISTORY SAFE NAVIGATION ===== */
+
+function nav(id, push = true) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if (push) history.pushState({ screen: id }, "", "#" + id);
+}
+
+window.addEventListener("popstate", e => {
+    if (e.state && e.state.screen) {
+        nav(e.state.screen, false);
+    } else {
+        nav('screen-welcome', false);
+    }
+});
+
+history.replaceState({ screen: 'screen-welcome' }, "", "#screen-welcome");
+
+/* ===== VALIDATION AND LOGIC ===== */
+
+function highlight(el) {
+    el.classList.add('invalid-field', 'shake');
+    setTimeout(() => el.classList.remove('shake'), 300);
+}
+
+function handleSignup() {
+    const name = document.getElementById('reg-name');
+    const phone = document.getElementById('reg-phone');
+    const email = document.getElementById('reg-email');
+    const pass = document.getElementById('reg-pass');
+    let ok = true;
+
+    [name, phone, email, pass].forEach(el => el.classList.remove('invalid-field'));
+    document.getElementById('err-phone').style.display = 'none';
+    document.getElementById('err-email').style.display = 'none';
+
+    if (!name.value.trim()) { highlight(name); ok = false; }
+    if (!/^\d+$/.test(phone.value)) { 
+        highlight(phone); 
+        document.getElementById('err-phone').style.display = 'block';
+        ok = false; 
+    }
+    if (!email.value.includes('@')) { 
+        highlight(email); 
+        document.getElementById('err-email').style.display = 'block';
+        ok = false; 
+    }
+    if (!pass.value.trim()) { highlight(pass); ok = false; }
+
+    if (ok) {
+        document.getElementById('display-name').innerText = name.value;
+        document.getElementById('display-email').innerText = email.value;
+        nav('screen-settings');
+    }
+}
+
+function handleLogin() {
+    const email = document.getElementById('login-email');
+    if (email.value.includes('@')) {
+        document.getElementById('display-email').innerText = email.value;
+        nav('screen-settings');
+    } else {
+        highlight(email);
+    }
+}
+</script>
+
+</body>
+</html>

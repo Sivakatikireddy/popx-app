@@ -1,0 +1,113 @@
+:root {
+  --primary-purple: #6C25FF;
+  --light-purple: #EBE0FF;
+  --text-gray: #666666;
+  --border-color: #CBCBCB;
+  --error-red: #FF0000;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.app-shell {
+  width: 375px;
+  height: 667px;
+  background: white;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  flex-direction: column;
+}
+
+.active { display: flex; }
+
+/* Navigation */
+.back-arrow {
+  font-size: 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: fit-content;
+  margin-bottom: 15px;
+}
+
+/* Typography */
+h1 { font-size: 24px; margin-bottom: 8px; }
+.description { color: var(--text-gray); font-size: 14px; margin-bottom: 30px; }
+
+/* Inputs */
+.field-container {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.field-container label {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  background: white;
+  padding: 0 4px;
+  font-size: 12px;
+  color: var(--primary-purple);
+  z-index: 5;
+}
+
+.field-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.invalid-field { border: 1px solid var(--error-red) !important; }
+.error-msg { color: var(--error-red); font-size: 11px; margin-top: 4px; display: none; }
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.btn-purple { background: var(--primary-purple); color: white; }
+.btn-lavender { background: var(--light-purple); color: #1D2226; }
+
+/* Settings */
+.settings-header { padding: 15px 20px; border-bottom: 1px solid #eee; font-weight: bold; }
+.profile-section { display: flex; gap: 15px; padding: 20px; background: #F9F9F9; }
+.avatar { width: 70px; height: 70px; border-radius: 50%; background: #ccc; position: relative; }
+.avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.cam-icon { position: absolute; bottom: 0; right: 0; background: var(--primary-purple); border-radius: 50%; padding: 4px; color: white; font-size: 10px; }
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(5px); }
+  50% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+.shake { animation: shake 0.3s; }
